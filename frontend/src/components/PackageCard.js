@@ -48,7 +48,7 @@ export function PackageCard({ package: pkg, onQuoteClick, featured = false }) {
       )}
       
       {/* Image */}
-      <div className="relative h-32 sm:h-52 md:h-60 overflow-hidden group">
+      <div className="relative h-24 sm:h-52 md:h-60 overflow-hidden group">
         <img
           src={images[current]}
           alt={pkg.name}
@@ -102,7 +102,7 @@ export function PackageCard({ package: pkg, onQuoteClick, featured = false }) {
       {/* Content */}
       <div className="p-2 sm:p-5 md:p-6 bg-white sm:bg-none">
         {/* Header */}
-        <div className="mb-4">
+        <div className="mb-2 sm:mb-4">
           <div className="flex items-center justify-between mb-2">
             <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-gold-100 text-gold-800">
               {pkg.category}
@@ -115,7 +115,7 @@ export function PackageCard({ package: pkg, onQuoteClick, featured = false }) {
         </div>
 
         {/* Package Details */}
-        <div className="flex flex-wrap items-center gap-1 sm:gap-4 mb-2 sm:mb-4 text-[10px] sm:text-xs md:text-sm text-gray-500">
+        <div className="flex flex-wrap items-center gap-1 sm:gap-4 mb-1 sm:mb-4 text-[10px] sm:text-xs md:text-sm text-gray-500">
           <div className="flex items-center">
             <Users className="w-4 h-4 mr-1" />
             <span>{pkg.minGuests}-{pkg.maxGuests} guests</span>
@@ -127,17 +127,25 @@ export function PackageCard({ package: pkg, onQuoteClick, featured = false }) {
         </div>
 
         {/* Features */}
-        <div className="mb-3 sm:mb-6">
+        <div className="mb-2 sm:mb-6">
           <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-1 sm:mb-2">Included:</h4>
           <div className="flex flex-wrap gap-1 sm:gap-2">
             {pkg.features.slice(0, 4).map((feature, index) => (
-              <span key={index} className="inline-flex items-center px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-xs bg-gray-100 text-gray-700">
+              <span
+                key={index}
+                className={`inline-flex items-center px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-xs bg-gray-100 text-gray-700 ${index >= 2 ? 'hidden sm:inline-flex' : ''}`}
+              >
                 <CheckCircle className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-green-500 mr-1 sm:mr-1.5" />
                 {feature}
               </span>
             ))}
+            {pkg.features.length > 2 && (
+              <span className="inline-flex sm:hidden items-center px-2 py-0.5 rounded-full text-[10px] bg-gray-50 text-gray-500">
+                +{pkg.features.length - 2} more
+              </span>
+            )}
             {pkg.features.length > 4 && (
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-gray-50 text-gray-500">
+              <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-gray-50 text-gray-500">
                 +{pkg.features.length - 4} more
               </span>
             )}
@@ -147,7 +155,7 @@ export function PackageCard({ package: pkg, onQuoteClick, featured = false }) {
         {/* Action Button */}
         <Button
           onClick={handleGetQuote}
-          className="w-full bg-gold-600 hover:bg-gold-700 text-black font-medium sm:font-semibold rounded-md sm:rounded-full text-[10px] sm:text-xs md:text-sm py-1.5 sm:py-2 md:py-3"
+          className="w-full bg-gold-600 hover:bg-gold-700 text-black font-medium sm:font-semibold rounded-md sm:rounded-full text-[10px] sm:text-xs md:text-sm py-1 sm:py-2 md:py-3"
         >
           Add to Quotation
         </Button>

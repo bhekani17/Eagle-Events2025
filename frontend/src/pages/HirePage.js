@@ -108,36 +108,42 @@ export const HirePage = ({ onQuoteClick }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white p-6 rounded-xl shadow-md"
+            className="relative overflow-hidden rounded-xl shadow-md bg-center bg-cover bg-no-repeat min-h-[220px] sm:min-h-[260px]"
+            style={{ backgroundImage: "url('/images/HOME3.webp')", backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Find Your Perfect Equipment</h2>
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/40" />
+
+            {/* Foreground content */}
+            <div className="relative z-10 p-6">
+            <h2 className="text-2xl font-bold text-white mb-6">Find Your Perfect Equipment</h2>
             
             {/* Search Bar */}
             <div className="relative max-w-2xl mb-6">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <SearchIcon className="h-5 w-5 text-gray-400" />
+                <SearchIcon className="h-5 w-5 text-gray-200" />
               </div>
               <input
                 type="text"
                 placeholder="Search equipment by name or description..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-gold-500 transition-all duration-200"
+                className="block w-full pl-10 pr-3 py-3 rounded-lg bg-white/90 backdrop-blur-sm border border-white/40 placeholder-gray-600 text-gray-900 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-gold-500 transition-all duration-200"
               />
               {searchQuery && (
                 <button
                   onClick={clearSearch}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:bg-gray-100 rounded-r-lg px-2 transition-colors"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center hover:bg-white/60 rounded-r-lg px-2 transition-colors"
                   aria-label="Clear search"
                 >
-                  <X className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                  <X className="h-5 w-5 text-gray-300 hover:text-white" />
                 </button>
               )}
             </div>
 
             {/* Category Filters */}
             <div className="mb-4">
-              <h3 className="text-sm font-medium text-gray-700 mb-3">Filter by Category:</h3>
+              <h3 className="text-sm font-medium text-white mb-3">Filter by Category:</h3>
               <div className="flex flex-wrap gap-2">
                 {categories.map((category) => (
                   <motion.button
@@ -147,14 +153,15 @@ export const HirePage = ({ onQuoteClick }) => {
                     onClick={() => setSelectedCategory(category.id)}
                     className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${
                       selectedCategory === category.id
-                        ? 'bg-gold-600 text-white shadow-md hover:bg-gold-700'
-                        : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                        ? 'bg-gold-600 text-black shadow-md hover:bg-gold-500'
+                        : 'bg-white/90 text-gray-800 hover:bg-white border border-white/40 backdrop-blur-sm'
                     }`}
                   >
                     {category.id === 'all' ? 'All Equipment' : category.name}
                   </motion.button>
                 ))}
               </div>
+            </div>
             </div>
           </motion.div>
 
@@ -284,7 +291,7 @@ export const HirePage = ({ onQuoteClick }) => {
                     aria-labelledby={`item-${item._id}-title`}
                   >
                     {/* Image area with multi-image mosaic */}
-                    <div className="relative pt-[100%] sm:pt-[56.25%] bg-gray-50 overflow-hidden">
+                    <div className="relative pt-[75%] sm:pt-[56.25%] bg-gray-50 overflow-hidden">
                       <div className="absolute inset-0">
                         {item.images && item.images.length > 0 ? (
                           (() => {
@@ -406,7 +413,7 @@ export const HirePage = ({ onQuoteClick }) => {
                       <div className="flex justify-between items-start space-x-1 mb-0.5 sm:mb-1">
                         <h3 
                           id={`item-${item._id}-title`}
-                          className="text-xs sm:text-sm font-bold text-gray-900 leading-tight line-clamp-2"
+                          className="text-[11px] sm:text-sm font-bold text-gray-900 leading-tight line-clamp-1 sm:line-clamp-2"
                         >
                           {item.name}
                         </h3>
@@ -414,13 +421,13 @@ export const HirePage = ({ onQuoteClick }) => {
                           <span className="text-xs sm:text-sm md:text-base font-bold text-gold-600 whitespace-nowrap">
                             {formatCurrency(item.pricePerDay)}
                           </span>
-                          <span className="text-xs text-gray-500">per day</span>
+                          <span className="text-[10px] text-gray-500">per day</span>
                         </div>
                       </div>
                       
-                      <div className="mb-3 flex-grow">
+                      <div className="mb-1.5 sm:mb-2 flex-grow">
                         <p 
-                          className={`text-gray-600 text-sm ${expandedDesc[item._id] ? '' : 'line-clamp-3'}`}
+                          className={`text-gray-600 text-xs sm:text-sm ${expandedDesc[item._id] ? '' : 'line-clamp-1 sm:line-clamp-3'}`}
                           aria-expanded={!!expandedDesc[item._id]}
                         >
                           {item.description || 'No description available.'}
@@ -441,20 +448,28 @@ export const HirePage = ({ onQuoteClick }) => {
                       
                       {/* Features */}
                       {item.features && item.features.length > 0 && (
-                        <div className="mb-4">
+                        <div className="mb-2.5 sm:mb-3">
                           <div className="flex flex-wrap gap-1.5">
                             {item.features.slice(0, 3).map((feature, index) => (
                               <span 
                                 key={index}
-                                className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-100 hover:bg-gray-100 transition-colors"
+                                className={`inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-xs font-medium bg-gray-50 text-gray-700 border border-gray-100 hover:bg-gray-100 transition-colors ${index >= 1 ? 'hidden sm:inline-flex' : ''}`}
                                 title={feature}
                               >
                                 {feature.length > 15 ? `${feature.substring(0, 15)}...` : feature}
                               </span>
                             ))}
+                            {item.features.length > 1 && (
+                              <span 
+                                className="inline-flex sm:hidden items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-white text-gray-500 border border-gray-200 hover:bg-gray-50 transition-colors"
+                                title={`${item.features.length - 1} more features`}
+                              >
+                                +{item.features.length - 1}
+                              </span>
+                            )}
                             {item.features.length > 3 && (
                               <span 
-                                className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white text-gray-500 border border-gray-200 hover:bg-gray-50 transition-colors"
+                                className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white text-gray-500 border border-gray-200 hover:bg-gray-50 transition-colors"
                                 title={`${item.features.length - 3} more features`}
                               >
                                 +{item.features.length - 3}
@@ -465,23 +480,23 @@ export const HirePage = ({ onQuoteClick }) => {
                       )}
                       
                       {/* Availability & Condition */}
-                      <div className="flex items-center justify-between mt-auto pt-3 pb-2 border-t border-gray-100">
+                      <div className="flex items-center justify-between mt-auto pt-1.5 pb-1 border-t border-gray-100">
                         <div className="flex items-center">
                           <div 
-                            className={`h-2.5 w-2.5 rounded-full mr-2 flex-shrink-0 ${
+                            className={`h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full mr-1.5 sm:mr-2 flex-shrink-0 ${
                               isAvailable ? 'bg-green-500' : 'bg-red-500'
                             }`}
                             aria-hidden="true"
                           ></div>
-                          <span className="text-sm font-medium text-gray-700">
+                          <span className="text-xs sm:text-sm font-medium text-gray-700">
                             {isAvailable 
                               ? `${item.quantity} ${item.quantity === 1 ? 'Unit' : 'Units'}` 
                               : 'Out of Stock'}
                           </span>
                         </div>
                         <div className="text-right">
-                          <span className="text-xs text-gray-500 block">Condition</span>
-                          <span className="text-sm font-medium text-gray-700 capitalize">
+                          <span className="text-[10px] sm:text-xs text-gray-500 block">Condition</span>
+                          <span className="text-xs sm:text-sm font-medium text-gray-700 capitalize">
                             {item.condition?.toLowerCase() || 'Good'}
                           </span>
                         </div>
@@ -501,7 +516,7 @@ export const HirePage = ({ onQuoteClick }) => {
                           }
                         })}
                         disabled={!isAvailable}
-                        className={`w-full py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 mt-4 flex items-center justify-center ${
+                        className={`w-full py-1.5 sm:py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 mt-2 sm:mt-4 text-[11px] sm:text-sm flex items-center justify-center ${
                           isAvailable 
                             ? 'bg-gold-600 text-white hover:bg-gold-700 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2' 
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
